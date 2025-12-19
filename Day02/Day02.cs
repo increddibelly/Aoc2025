@@ -1,4 +1,6 @@
-﻿namespace Aoc2025.Day02;
+﻿using Aoc2025.Utils;
+
+namespace Aoc2025.Day02;
 
 internal class Day02
 {

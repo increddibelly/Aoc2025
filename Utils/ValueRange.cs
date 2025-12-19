@@ -1,4 +1,4 @@
-﻿namespace Aoc2025.Day02;
+﻿namespace Aoc2025.Utils;
 
 internal class ValueRange
 {
