@@ -26,7 +26,7 @@ internal class CharMap : Map<char>
         var rows = input.Split(Environment.NewLine);
         var map = new CharMap(rows[0].Length, rows.Length);
 
-        map.RunForMap((x, y, theValue) => map[x, y] = rows[y][x]);
+        map.RunForMap((x, y) => map[x, y] = rows[y][x]);
 
         return map;
     }

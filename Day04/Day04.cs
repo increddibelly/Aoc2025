@@ -6,7 +6,6 @@ internal class Day04
 {
     private const char Crate = '@';
     private const char EmptySpace = '_';
-    private const int NotACrate = 0;
 
     private readonly CharMap Warehouse;
 
@@ -18,15 +17,18 @@ internal class Day04
 
     public int Run(bool secondMethod = false)
     {
-        var result = Warehouse.RunForMap(CountCratesAroundCrate);
-        var count = result.CountAll(val => val > 0 && val < 4);
-        return count;
+        var numberOfSurroundingCrates = Warehouse.RunForMap(CountSurroundingCrates);
+        var cratesWithFewNeighbours = numberOfSurroundingCrates.RunForMap((x, y) => numberOfSurroundingCrates[x, y] > 0 && numberOfSurroundingCrates[x, y] < 4 ? numberOfSurroundingCrates[x, y].ToString() : "_");
+        var numberOfAccessibleCrates = numberOfSurroundingCrates.CountWhen(cratesInArea => cratesInArea > 0 && cratesInArea < 4);
+
+        return numberOfAccessibleCrates;
     }
 
-    private int CountCratesAroundCrate(int x, int y, char theValue)
+    private int CountSurroundingCrates(int x, int y)
     {
+        var theValue = Warehouse[x, y];
         if (theValue != Crate)
-            return NotACrate;
+            return 0;
 
         var count = Warehouse.CountAdjacent(x, y, Crate);
         return count;

@@ -77,7 +77,7 @@ internal class Map<T>
         
         LoopAround(x, y, valueAtPoint =>
         {
-            if (valueAtPoint!.Equals(needle))
+            if (valueAtPoint != null && valueAtPoint.Equals(needle))
             {
                 needlesFound++;
             }
@@ -86,7 +86,7 @@ internal class Map<T>
         return needlesFound;
     }
 
-    public Map<TResult> RunForMap<TResult>(Func<int, int, T, TResult> action)
+    public Map<TResult> RunForMap<TResult>(Func<int, int, TResult> action)
     {
         var output = new Map<TResult>(Width, Height);
 
@@ -94,18 +94,20 @@ internal class Map<T>
         {
             for (var x = 0; x < Width; x++)
             {
-                output[x, y] = action(x, y, this[x, y]);
+                output[x, y] = action(x, y);
             }
         }
+        Console.WriteLine(output.ToString().Replace('0',' '));
         return output;
     }
 
-    public int CountAll(Func<T, bool> action)
+    public int CountWhen(Func<T, bool> condition)
     {
         var count = 0;
-        var counted = RunForMap((x, y, theValue) =>
+        var counted = RunForMap((x, y) =>
         {
-            var result = action(theValue);
+            var theValue = this[x, y];
+            var result = condition(theValue);
             if (result)
             {
                 count++;
@@ -113,6 +115,7 @@ internal class Map<T>
             }
             return '_';
         });
+        
         Console.WriteLine(counted.ToString());
         return count;
     }
